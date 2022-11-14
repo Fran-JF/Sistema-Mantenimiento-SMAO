@@ -18,5 +18,10 @@ trabajosRouter.get('/', trabajosController.listar);
 // Ruta para listar trabajos por su tipo (Preventivo - Correctivo)
 trabajosRouter.get('/:tipoTrab', trabajosController.listarPorTipo);
 
+//! Aplicamos (POST, PUT, DELETE) a los Trabajos de Mantenimiento
+
+// Creamos la funcionalidad POST (Agregar)
+trabajosRouter.post('/', trabajosController.agregar);
+
 //Exportamos el router
 module.exports = trabajosRouter;
