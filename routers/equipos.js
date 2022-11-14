@@ -23,5 +23,8 @@ equiposRouter.get('/:id', equiposController.mostrarEquipo);
 // Creamos la funcionalidad POST (Agregar)
 equiposRouter.post('/', equiposController.agregar);
 
+// Creamos la funcionalidad PUT (Actualizar)
+equiposRouter.put('/:id', equiposController.editar);
+
 //Exportamos el router
 module.exports = equiposRouter;

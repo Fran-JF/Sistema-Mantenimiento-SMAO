@@ -1,6 +1,13 @@
 //Llegamos a la carpeta con la información
 const { equipo } = require('../data/data.js').dataSistem;
 
+// Función utilizada en los métodos de la clase Equipo
+function buscarIndiceDelDato(req) {
+  const id = req.params.id;
+  const indice = equipo.findIndex(dato => dato.serial == id);
+  return indice;
+}
+
 class Equipo {
   listar(req, res) {
     res.send(equipo);
@@ -40,6 +47,29 @@ class Equipo {
     // Agregar y mostrar equipos
     equipo.push(equipoNuevo);
     res.status(201).send(equipo);
+  }
+
+  editar(req, res) {
+    const equipoActualizado = req.body;
+
+    // Comprobar si hay conflicto con la propiedad serial:
+    const indice = buscarIndiceDelDato(req);
+    // Si el valor existe
+    if (indice >= 0) {
+      const idNuevo = equipoActualizado.serial;
+      const indiceNuevo = equipo.findIndex(dato => dato.serial == idNuevo);
+
+      // No permitir actualizar por duplicación del ID (serial)
+      if (indiceNuevo >= 0 && indice != indiceNuevo) {
+        return res.status(405).send("No se actualizó el equipo, el serial (ID) ingresado le pertenece a otro equipo.");
+      }
+      // Actualizar y mostrar equipos
+      equipo[indice] = equipoActualizado;
+      return res.send(equipo);
+    }
+
+    // Si no se encuentra
+    res.status(404).send(`No se actualizó el equipo. No se encontró el Equipo con el Identificador: ${req.params.id}`);
   }
 
   // Utilizada en la clase Trabajo
