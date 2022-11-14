@@ -1,0 +1,64 @@
+/////////////////////////////////////// Equipos ///////////////////////////////////////
+
+### Agregar un nuevo equipo
+POST http://localhost:3000/equipos HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Compresor",
+    "descripcion": "Máquina de fluido que está construida para aumentar la presión y desplazar cierto tipo de fluidos",
+    "serial": "kh1534te",
+    "fecha_inicial": "2022-09-15"
+}
+
+### Editar datos de un equipo
+PUT http://localhost:3000/equipos/ls0270ft HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Ventilador",
+    "descripcion":"Produce una corriente de aire de mas de 100ºC",
+    "serial":"ls0270ft",
+    "fecha_inicial":"2021-07-21",
+    "ultima_fecha_marcha":"2022-10-12",
+    "ultima_fecha_mantenimiento":"2022-10-05",
+    "id_ultimo_trabajo": "3"
+}
+
+### Eliminar equipo
+DELETE  http://localhost:3000/equipos/ch45645ki HTTP/1.1
+Content-Type: application/json
+
+/////////////////////////////////////// Trabajos ///////////////////////////////////////
+
+### Agregar trabajos
+POST http://localhost:3000/trabajos HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_trabajo": "7",
+    "id_equipo": "ac2356mn",
+    "fecha_planificada": "2022-11-07",
+    "fecha_inicio": "2022-11-07",
+    "fecha_final": "2022-11-11",
+    "estatus": "Finalizado",
+    "tipo_trabajo": "preventivo"
+}
+
+### Editar trabajos
+PUT  http://localhost:3000/trabajos/3 HTTP/1.1
+Content-Type: application/json
+
+{
+    "id_trabajo": "3",
+    "id_equipo": "ls0270ft",
+    "fecha_planificada": "2021-02-03",
+    "fecha_inicio": "2021-02-03",
+    "fecha_final": "2021-02-08",
+    "estatus": "Finalizado",
+    "tipo_trabajo": "correctivo"
+}
+
+### Eliminar trabajos
+DELETE  http://localhost:3000/trabajos/2 HTTP/1.1
+Content-Type: application/json

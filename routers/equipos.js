@@ -18,5 +18,10 @@ equiposRouter.get('/', equiposController.listar);
 // Ruta para listar Equipos por ID único (serial)
 equiposRouter.get('/:id', equiposController.mostrarEquipo);
 
+//! Aplicamos (POST, PUT, DELETE) a los Equipos Industriales
+
+// Creamos la funcionalidad POST (Agregar)
+equiposRouter.post('/', equiposController.agregar);
+
 //Exportamos el router
 module.exports = equiposRouter;
