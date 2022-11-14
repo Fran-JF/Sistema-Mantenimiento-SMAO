@@ -4,7 +4,13 @@ const { trabajo } = require('../data/data.js').dataSistem;
 // Controlador para Equipos usada en la clase Trabajo
 const equiposController = require('./equipos-c.js');
 
-//! Función utilizada en los métodos de la clase Trabajo
+//! Funciones utilizadas en los métodos de la clase Trabajo
+function buscarIndiceDelDato(req) {
+  const id = req.params.id;
+  const indice = trabajo.findIndex(dato => dato.id_trabajo == id);
+  return indice;
+}
+
 function validarTipoTrab(trabajo, res) {
   const tipoTrab = trabajo.tipo_trabajo;
   if (tipoTrab != "correctivo" && tipoTrab != "preventivo") {
@@ -63,6 +69,34 @@ class Trabajo {
     trabajo.push(trabajoNuevo);
     res.status(201).send(trabajo);
   }
+
+  editar(req, res) {
+    const trabajoActualizado = req.body;
+
+    const indice = buscarIndiceDelDato(req);
+    // Si el valor existe
+    if (indice >= 0) {
+        const idNuevo = trabajoActualizado.id_trabajo;
+        const indiceNuevo = trabajo.findIndex(dato => dato.id_trabajo == idNuevo);
+
+        // Verificar que el equipo exista
+        if (!equiposController.buscarEquipo(trabajoActualizado, res)) { return; }
+
+        // No permitir actualizar por duplicación del ID
+        if (indiceNuevo >= 0 && indice != indiceNuevo) {
+            return res.status(405).send("No se actualizó el trabajo, el ID ingresado le pertenece a otro trabajo de mantenimiento.");
+        }
+
+        // El tipo de trabajo debe ser correctivo o preventivo
+        if (!validarTipoTrab(trabajoActualizado, res)) { return; }
+
+        // Actualizar y mostrar trabajos
+        trabajo[indice] = trabajoActualizado;
+        return res.send(trabajo);
+    }
+    // Si no se encuentra
+    res.status(404).send(`No se actualizó el trabajo de mantenimiento. No se encontro el trabajo con el Identificador: ${req.params.id}`);
+}
 }
 
 //Exportamos el controlador de los trabajos

@@ -23,5 +23,8 @@ trabajosRouter.get('/:tipoTrab', trabajosController.listarPorTipo);
 // Creamos la funcionalidad POST (Agregar)
 trabajosRouter.post('/', trabajosController.agregar);
 
+// Creamos la funcionalidad PUT (Actualizar)
+trabajosRouter.put('/:id', trabajosController.editar);
+
 //Exportamos el router
 module.exports = trabajosRouter;
