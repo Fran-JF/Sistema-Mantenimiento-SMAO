@@ -67,9 +67,19 @@ class Equipo {
       equipo[indice] = equipoActualizado;
       return res.send(equipo);
     }
-
     // Si no se encuentra
     res.status(404).send(`No se actualizó el equipo. No se encontró el Equipo con el Identificador: ${req.params.id}`);
+  }
+
+  eliminar(req, res) {
+    const indice = buscarIndiceDelDato(req);
+
+    if (indice >= 0) {
+      equipo.splice(indice, 1);
+    } else {
+      return res.status(404).send(`No se eliminó el Equipo. No se encontró el Equipo con el Identificador: ${req.params.id}`);
+    }
+    res.send(equipo);
   }
 
   // Utilizada en la clase Trabajo

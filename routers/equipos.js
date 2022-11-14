@@ -26,5 +26,8 @@ equiposRouter.post('/', equiposController.agregar);
 // Creamos la funcionalidad PUT (Actualizar)
 equiposRouter.put('/:id', equiposController.editar);
 
+// Creamos la funcionalidad DELETE (Eliminar)
+equiposRouter.delete('/:id', equiposController.eliminar);
+
 //Exportamos el router
 module.exports = equiposRouter;

@@ -26,5 +26,8 @@ trabajosRouter.post('/', trabajosController.agregar);
 // Creamos la funcionalidad PUT (Actualizar)
 trabajosRouter.put('/:id', trabajosController.editar);
 
+// Creamos la funcionalidad DELETE (Eliminar)
+trabajosRouter.delete('/:id', trabajosController.eliminar);
+
 //Exportamos el router
 module.exports = trabajosRouter;

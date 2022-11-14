@@ -76,27 +76,37 @@ class Trabajo {
     const indice = buscarIndiceDelDato(req);
     // Si el valor existe
     if (indice >= 0) {
-        const idNuevo = trabajoActualizado.id_trabajo;
-        const indiceNuevo = trabajo.findIndex(dato => dato.id_trabajo == idNuevo);
+      const idNuevo = trabajoActualizado.id_trabajo;
+      const indiceNuevo = trabajo.findIndex(dato => dato.id_trabajo == idNuevo);
 
-        // Verificar que el equipo exista
-        if (!equiposController.buscarEquipo(trabajoActualizado, res)) { return; }
+      // Verificar que el equipo exista
+      if (!equiposController.buscarEquipo(trabajoActualizado, res)) { return; }
 
-        // No permitir actualizar por duplicación del ID
-        if (indiceNuevo >= 0 && indice != indiceNuevo) {
-            return res.status(405).send("No se actualizó el trabajo, el ID ingresado le pertenece a otro trabajo de mantenimiento.");
-        }
+      // No permitir actualizar por duplicación del ID
+      if (indiceNuevo >= 0 && indice != indiceNuevo) {
+        return res.status(405).send("No se actualizó el trabajo, el ID ingresado le pertenece a otro trabajo de mantenimiento.");
+      }
 
-        // El tipo de trabajo debe ser correctivo o preventivo
-        if (!validarTipoTrab(trabajoActualizado, res)) { return; }
+      // El tipo de trabajo debe ser correctivo o preventivo
+      if (!validarTipoTrab(trabajoActualizado, res)) { return; }
 
-        // Actualizar y mostrar trabajos
-        trabajo[indice] = trabajoActualizado;
-        return res.send(trabajo);
+      // Actualizar y mostrar trabajos
+      trabajo[indice] = trabajoActualizado;
+      return res.send(trabajo);
     }
     // Si no se encuentra
     res.status(404).send(`No se actualizó el trabajo de mantenimiento. No se encontro el trabajo con el Identificador: ${req.params.id}`);
-}
+  }
+  eliminar(req, res) {
+    const indice = buscarIndiceDelDato(req);
+
+    if (indice >= 0) {
+      trabajo.splice(indice, 1);
+    } else {
+      return res.status(404).send(`No se eliminó el Trabajo de mantenimiento. No se encontró el Mantenimiento con el Identificador: ${req.params.id}`);
+    }
+    res.send(trabajo);
+  }
 }
 
 //Exportamos el controlador de los trabajos
