@@ -1,25 +1,46 @@
-// Importamos express
-const { Router } = require('express');
-const express = require('express');
-const app = express();
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-// Importamos la informacion
-const {dataSistem} = require('./datos/data.js');
-
-//Implementamos las Ruta Principal (Routing)
-app.get('/', (req, res) => {
-    res.send("Servidor (Sistema de Mantenimiento SMAO 💻).");
-})
+var indexRouter = require('./routers/index');
 
 // Asociamos los Routers para Equipos y Trabajos
-const routerEquipo = require('./routers/equipo.js');
-app.use('/api/equipos', routerEquipo);
+const equiposRouter = require('./routers/equipos.js');
+const trabajosRouter = require('./routers/trabajos.js');
 
-const routerTrabajo = require('./routers/trabajo.js');
-app.use('/api/trabajos', routerTrabajo);
+var app = express();
 
-//Definimos el Puerto
-const PUERTO = process.env.PORT || 3000;
-app.listen(PUERTO, () => {
-    console.log(`El servidor esta escuchando en el puerto ${PUERTO}...`);
-})
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+
+app.use('/equipos', equiposRouter);
+app.use('/trabajos', trabajosRouter)
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;
