@@ -15,5 +15,8 @@ const equiposController = require('../controllers/equipos-c.js');
 // Ruta para listar a todos los Equipos
 equiposRouter.get('/', equiposController.listar);
 
+// Ruta para listar Equipos por ID único (serial)
+equiposRouter.get('/:id', equiposController.mostrarEquipo);
+
 //Exportamos el router
 module.exports = equiposRouter;

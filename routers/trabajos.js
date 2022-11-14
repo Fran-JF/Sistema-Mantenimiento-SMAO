@@ -15,5 +15,8 @@ const trabajosController = require('../controllers/trabajos-c');
 // Ruta para listar a todos los Trabajos
 trabajosRouter.get('/', trabajosController.listar);
 
+// Ruta para listar trabajos por su tipo (Preventivo - Correctivo)
+trabajosRouter.get('/:tipoTrab', trabajosController.listarPorTipo);
+
 //Exportamos el router
 module.exports = trabajosRouter;
